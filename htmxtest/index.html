@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx-ext-client-side-templates@2.0.0/client-side-templates.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nunjucks@3.2.4/browser/nunjucks.min.js"></script>
+    <script>document.addEventListener("htmx:configRequest",(e)=>{e.detail.headers=[]});</script>
+</head>
+<body>
+    <div hx-get="https://jsonplaceholder.typicode.com/posts/1" hx-trigger="click" hx-target="#result" hx-indicator="#indicator">get todo</div>
+    <div id="indicator" class="htmx-indicator">loading</div>
+    <div id="result"></div>
+    <div hx-ext="client-side-templates">
+        <!-- content templates  -->
+        <div hx-get="https://dummyjson.com/products" hx-trigger="load" nunjucks-template="blogs" hx-indicator="#indicator2">
+            <div id="indicator2" class="htmx-indicator">loading dummy json</div>
+            <template id="blogs">
+                {% if products %}
+                <div>ok products</div>
+                <ol>
+                {% for product in products %}
+                    <li>{{product.title}}</li>
+                {% endfor %}
+                </ol>
+                {% endif %}
+            </template>
+        </div>
+    </div>
+</body>
+<!-- <script src="htmx.min.js"></script> -->
+</html>
